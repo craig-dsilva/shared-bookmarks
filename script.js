@@ -6,12 +6,21 @@
 
 import { getUserIds } from "./storage.js";
 
-const addBookmarkButton = document.querySelector("#add-bookmark");
+const bookmarkForm = document.querySelector("#bookmark-form");
 
-function addBookmark() {
-  
-}
+bookmarkForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-addBookmarkButton.addEventListener("click", addBookmark);
+  const urlEl = document.querySelector("#url");
+  const titleEl = document.querySelector("#title");
+  const descriptionEl = document.querySelector("#description");
+  const url = urlEl.value;
+  const title = titleEl.value;
+  const description = descriptionEl.value;
+  console.log({ url, title, description });
+  urlEl.value = "";
+  titleEl.value = "";
+  descriptionEl.value = "";
+});
 
 window.onload = function () {};
