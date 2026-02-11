@@ -4,9 +4,18 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
-import { getUserIds } from "./storage.js";
+import { getUserIds, setData } from "./storage.js";
 
 const bookmarkForm = document.querySelector("#bookmark-form");
+
+const addBookmarkSelectEl = document.querySelector("#add-bookmark-dropdown");
+getUserIds().map((user) => {
+  const optionEl = document.createElement("option");
+  optionEl.id = "add-bookmak" + user;
+  optionEl.value = user;
+  optionEl.innerText = user;
+  addBookmarkSelectEl.appendChild(optionEl);
+});
 
 bookmarkForm.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -14,10 +23,11 @@ bookmarkForm.addEventListener("submit", function (e) {
   const urlEl = document.querySelector("#url");
   const titleEl = document.querySelector("#title");
   const descriptionEl = document.querySelector("#description");
+  const id = addBookmarkSelectEl.value;
   const url = urlEl.value;
   const title = titleEl.value;
   const description = descriptionEl.value;
-  console.log({ url, title, description });
+  setData(id, { id, url, title, description });
   urlEl.value = "";
   titleEl.value = "";
   descriptionEl.value = "";
