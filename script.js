@@ -9,6 +9,9 @@ import { getUserIds, getData } from "./storage.js";
 let currentUser = null;
 
 window.onload = function () {
+  populateUserDropdown();
+};
+
   const users = getUserIds();
   document.querySelector("body").innerText = `There are ${users.length} users`;
 };
