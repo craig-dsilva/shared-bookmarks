@@ -10,6 +10,7 @@ let currentUser = null;
 
 window.onload = function () {
   populateUserDropdown();
+  setupUserSelection();
 };
 
 function populateUserDropdown() {
@@ -21,5 +22,14 @@ function populateUserDropdown() {
     option.value = userId;
     option.textContent = `User ${userId}`;
     dropdown.appendChild(option);
+  });
+}
+
+function setupUserSelection() {
+  const dropdown = document.getElementById("user-select");
+
+  dropdown.addEventListener("change", function (event) {
+    const selectedUserId = event.target.value;
+    currentUser = selectedUserId || null;
   });
 }
