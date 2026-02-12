@@ -19,10 +19,7 @@ function populateUserDropdown() {
   users.forEach((userId) => {
     const option = document.createElement("option");
     option.value = userId;
-    option.text = `User ${userId}`;
+    option.textContent = `User ${userId}`;
     dropdown.appendChild(option);
   });
-
-  const users = getUserIds();
-  document.querySelector("body").innerText = `There are ${users.length} users`;
 }
