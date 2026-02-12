@@ -6,7 +6,7 @@
 
 import { getUserIds, getData } from "./storage.js";
 
-let currentUserId = null;
+let currentUser = null;
 
 window.onload = function () {
   const users = getUserIds();
