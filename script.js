@@ -13,16 +13,16 @@ window.onload = function () {
 };
 
 function populateUserDropdown() {
-  const users= getUserIds();
+  const users = getUserIds();
   const dropdown = document.getElementById("user-select");
 
-users.forEach((userId) => {
-const option = document.createElement("option");
-option.value = userId;
-option.text = `User ${userId}`;
-dropdown.appendChild(option);
-});
-}
+  users.forEach((userId) => {
+    const option = document.createElement("option");
+    option.value = userId;
+    option.text = `User ${userId}`;
+    dropdown.appendChild(option);
+  });
+
   const users = getUserIds();
   document.querySelector("body").innerText = `There are ${users.length} users`;
-};
+}
