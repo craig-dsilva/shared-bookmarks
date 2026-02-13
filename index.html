@@ -5,23 +5,23 @@
     <script type="module" src="script.js"></script>
   </head>
   <body>
-    <form id="bookmark-form">
-      <p>Add bookmarks</p>
-      <label for="select-user">Select User:</label>
-      <select name="select-user" id="select-user"></select>
-      <label for="url">URL: </label>
-      <input type="url" name="url" id="url" required />
-      <label for="title">Title: </label>
-      <input type="text" name="title" id="title" required />
-      <label for="description">Description: </label>
-      <textarea name="description" id="description"></textarea>
-      <input type="submit" value="Submit" />
-    </form>
     <main>
       <h1>Shared Bookmarks</h1>
       <section>
+        <form id="bookmark-form">
+          <label for="url">URL: </label>
+          <input type="url" name="url" id="url" required />
+          <label for="title">Title: </label>
+          <input type="text" name="title" id="title" required />
+          <label for="description">Description: </label>
+          <textarea name="description" id="description"></textarea>
+          <input type="submit" value="Submit" />
+        </form>
         <label for="user-select">Select User:</label>
-        <select id="user-select">
+        <select
+          id="user-select"
+          aria-label="Select a user to view their bookmarks"
+        >
           <option value="">--Select a user--</option>
         </select>
       </section>

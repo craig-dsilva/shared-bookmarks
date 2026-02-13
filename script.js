@@ -4,42 +4,10 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
-import { getUserIds, setData, getData } from "./storage.js";
-
-const bookmarkForm = document.querySelector("#bookmark-form");
-const addBookmarkSelectEl = document.querySelector("#select-user");
-getUserIds().map((user) => {
-  const optionEl = document.createElement("option");
-  optionEl.id = "add-bookmark-" + user;
-  optionEl.value = user;
-  optionEl.innerText = user;
-  addBookmarkSelectEl.appendChild(optionEl);
-});
-
-bookmarkForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const urlEl = document.querySelector("#url");
-  const titleEl = document.querySelector("#title");
-  const descriptionEl = document.querySelector("#description");
-  const id = addBookmarkSelectEl.value;
-  const url = urlEl.value;
-  const title = titleEl.value;
-  const description = descriptionEl.value;
-  const createdAt = new Date();
-  const bookmarks = getData(id)?.data ? getData(id).data : [];
-  bookmarks.push({ url, title, description, createdAt });
-  setData(id, { id, data: bookmarks });
-  urlEl.value = "";
-  titleEl.value = "";
-  descriptionEl.value = "";
-  location.reload();
-});
-let currentUser = null;
-
 window.onload = function () {
   populateUserDropdown();
   setupUserSelection();
+  setupFormHandler();
 };
 
 function populateUserDropdown() {
@@ -56,9 +24,140 @@ function populateUserDropdown() {
 
 function setupUserSelection() {
   const dropdown = document.getElementById("user-select");
-
   dropdown.addEventListener("change", function (event) {
     const selectedUserId = event.target.value;
     currentUser = selectedUserId || null;
+    renderBookmarks();
   });
+}
+
+function handleLike(bookmarkIndex) {
+  console.log("=== LIKE CLICKED ===");
+  console.log("Index:", bookmarkIndex);
+  console.log("Current user:", currentUser);
+
+  if (!currentUser) {
+    alert("Please select a user to like bookmarks.");
+    return;
+  }
+
+  const bookmarks = getData(currentUser) || [];
+  const sortedBookmarks = [...bookmarks].sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
+  sortedBookmarks[bookmarkIndex].likes =
+    (sortedBookmarks[bookmarkIndex].likes || 0) + 1;
+
+  setData(currentUser, sortedBookmarks);
+  renderBookmarks();
+}
+function setupFormHandler() {
+  const bookmarkForm = document.querySelector("#bookmark-form");
+
+  bookmarkForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    if (!currentUser) {
+      alert("Please select a user first!");
+      return;
+    }
+
+    const urlEl = document.getElementById("url");
+    const titleEl = document.getElementById("title");
+    const descriptionEl = document.getElementById("description");
+
+    const url = urlEl.value;
+    const title = titleEl.value;
+    const description = descriptionEl.value;
+
+    const bookmarks = getData(currentUser) || [];
+
+    const newBookmark = {
+      url: url,
+      title: title,
+      description: description,
+      createdAt: new Date().toISOString(),
+      likes: 0,
+    };
+
+    bookmarks.push(newBookmark);
+    setData(currentUser, bookmarks);
+
+    urlEl.value = "";
+    titleEl.value = "";
+    descriptionEl.value = "";
+
+    renderBookmarks();
+  });
+}
+
+function renderBookmarks() {
+  const container = document.getElementById("bookmarks-container");
+  container.innerHTML = "";
+
+  if (!currentUser) {
+    return;
+  }
+
+  const bookmarks = getData(currentUser) || [];
+
+  if (bookmarks.length === 0) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "No bookmarks found for this user.";
+    container.appendChild(emptyMessage);
+    return;
+  }
+
+  const sortedBookmarks = [...bookmarks].sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
+  sortedBookmarks.forEach((bookmark, index) => {
+    const card = createBookmarkCard(bookmark, index);
+    container.appendChild(card);
+  });
+}
+
+function createBookmarkCard(bookmark, index) {
+  const card = document.createElement("div");
+  card.className = "bookmark-card";
+
+  const title = document.createElement("h3");
+  const link = document.createElement("a");
+  link.href = bookmark.url;
+  link.textContent = bookmark.title;
+  link.target = "_blank";
+  title.appendChild(link);
+
+  const description = document.createElement("p");
+  description.textContent = bookmark.description;
+
+  const timestamp = document.createElement("p");
+  const date = new Date(bookmark.createdAt);
+  timestamp.textContent = `Created at: ${date.toLocaleString()}`;
+
+  const likeContainer = document.createElement("div");
+  likeContainer.className = "like-container";
+
+  const likeButton = document.createElement("button");
+  likeButton.textContent = "Like";
+  likeButton.type = "button";
+
+  const likeCount = document.createElement("span");
+  likeCount.textContent = ` ${bookmark.likes || 0} likes`;
+
+  likeButton.addEventListener("click", function () {
+    handleLike(index);
+  });
+
+  likeContainer.appendChild(likeButton);
+  likeContainer.appendChild(likeCount);
+
+  card.appendChild(title);
+  card.appendChild(description);
+  card.appendChild(timestamp);
+  card.appendChild(likeContainer);
+
+  return card;
 }
