@@ -35,6 +35,25 @@ function setupUserSelection() {
   });
 }
 
+function handleLike(bookmarkIndex) {
+  if (!currentUser) {
+    alert("Please select a user to like bookmarks.");
+    return;
+  }
+
+  const bookmarks = getData(currentUser) || [];
+
+  const sortedBookmarks = [...bookmarks].sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
+  sortedBookmarks[bookmarkIndex].likes =
+    (sortedBookmarks[bookmarkIndex].likes || 0) + 1;
+
+  setData(currentUser, sortedBookmarks);
+  renderBookmarks();
+}
+
 function renderBookmarks() {
   const container = document.getElementById("bookmarks-container");
   container.innerHTML = "";
