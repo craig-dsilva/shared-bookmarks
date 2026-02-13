@@ -61,6 +61,7 @@ function setupFormHandler() {
 
   bookmarkForm.addEventListener("submit", function (e) {
     e.preventDefault();
+    clearErrors();
 
     if (!currentUser) {
       alert("Please select a user first!");
@@ -74,6 +75,21 @@ function setupFormHandler() {
     const url = urlEl.value;
     const title = titleEl.value;
     const description = descriptionEl.value;
+
+    if (!isValidUrl(url)) {
+      showError("url", "Please enter a valid URL.");
+      return;
+    }
+
+    if (!title.trim()) {
+      showError("title", "Please enter a title.");
+      return;
+    }
+
+    if (!description.trim()) {
+      showError("description", "Please enter a description.");
+      return;
+    }
 
     const bookmarks = getData(currentUser) || [];
 
@@ -94,6 +110,15 @@ function setupFormHandler() {
 
     renderBookmarks();
   });
+}
+
+function isValidUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
 }
 
 function renderBookmarks() {
@@ -169,11 +194,13 @@ function createBookmarkCard(bookmark, index) {
 function showError(fieldId, message) {
   const errorEl = document.getElementById(`${fieldId}-error`);
   errorEl.textContent = message;
+  errorEl.style.display = "block";
 }
 
 function clearErrors() {
-  const errorMessages = document.querySelectorAll(".error-message");
+  const errorMessages = document.querySelectorAll('[id$="-error"]');
   errorMessages.forEach((el) => {
     el.textContent = "";
+    el.style.display = "none";
   });
 }
