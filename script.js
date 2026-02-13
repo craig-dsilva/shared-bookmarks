@@ -78,3 +78,13 @@ function createBookmarkCard(bookmark, index) {
   const timestamp = document.createElement("p");
   const date = new Date(bookmark.createdAt);
   timestamp.textContent = `Created at: ${date.toLocaleString()}`;
+
+  const likeContainer = document.createElement("div");
+  likeContainer.className = "like-container";
+
+  const likeButton = document.createElement("button");
+  likeButton.textContent = "Like";
+  likeButton.type = "button";
+
+  
+
