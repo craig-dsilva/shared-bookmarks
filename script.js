@@ -56,36 +56,50 @@ function handleLike(bookmarkIndex) {
 function setupFormHandler() {
   const bookmarkForm = document.querySelector("#bookmark-form");
 
-  bookmarkForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+  bookmarkForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    if (!currentUser) {
+      alert("Please select a user first!");
+      return;
+    }
+
+    const urlEl = document.getElementById("url");
+    const titleEl = document.getElementById("title");
+    const descriptionEl = document.getElementById("description");
+
+    const url = urlEl.value;
+    const title = titleEl.value;
+    const description = descriptionEl.value;
+
+    const bookmarks = getData(currentUser) || [];
+
+    const newBookmark = {
+      url: url,
+      title: title,
+      description: description,
+      createdAt: new Date().toISOString(),
+      likes: 0,
+    };
+
+    bookmarks.push(newBookmark);
+    setData(currentUser, bookmarks);
+
+    urlEl.value = "";
+    titleEl.value = "";
+    descriptionEl.value = "";
+
+    renderBookmarks();
   });
+}
 
-  const urlEl = document.getElementById("url");
-  const titleEl = document.getElementById("title");
-  const descriptionEl = document.getElementById("description");
+function renderBookmarks() {
+  const container = document.getElementById("bookmarks-container");
+  container.innerHTML = "";
 
-  const url = urlEl.value;
-  const title = titleEl.value;
-  const description = descriptionEl.value;
-
-  const bookmark = getData(currentUser) || [];
-
-  const newBookmark = {
-    url: url,
-    title: title,
-    description: description,
-    createdAt: new Date().toISOString(),
-    likes: 0,
-  };
-  bookmark.push(newBookmark);
-
-  setData(currentUser, bookmark);
-
-  urlElement.value = "";
-  titleElement.value = "";
-  descriptionElement.value = "";
-
-  renderBookmarks();
+  if (!currentUser) {
+    return;
+  }
 
   const bookmarks = getData(currentUser) || [];
 
