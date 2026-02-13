@@ -36,7 +36,6 @@ function setupUserSelection() {
 }
 
 function handleLike(bookmarkIndex) {
-
   if (!currentUser) {
     alert("Please select a user to like bookmarks.");
     return;
@@ -184,6 +183,17 @@ function createBookmarkCard(bookmark, index) {
   card.appendChild(description);
   card.appendChild(timestamp);
   card.appendChild(likeContainer);
+
+  const copyButton = document.createElement("button");
+  copyButton.textContent = "Copy URL";
+  copyButton.type = "button";
+
+  copyButton.addEventListener("click", function () {
+    copyToClipboard(bookmark.url);
+    alert("URL copied to clipboard!");
+  });
+
+  card.appendChild(copyButton);
 
   return card;
 }
