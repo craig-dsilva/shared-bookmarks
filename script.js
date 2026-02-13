@@ -64,7 +64,7 @@ function renderBookmarks() {
 function createBookmarkCard(bookmark, index) {
   const card = document.createElement("div");
   card.className = "bookmark-card";
-  
+
   const title = document.createElement("h3");
   const link = document.createElement("a");
   link.href = bookmark.url;
@@ -86,5 +86,20 @@ function createBookmarkCard(bookmark, index) {
   likeButton.textContent = "Like";
   likeButton.type = "button";
 
-  
+  const likeCount = document.createElement("span");
+  likeCount.textContent = ` ${bookmark.likes || 0} likes`;
 
+  likeButton.addEventListener("click", function () {
+    handleLike(bookmarkIndex);
+  });
+
+  likeContainer.appendChild(likeButton);
+  likeContainer.appendChild(likeCount);
+
+  card.appendChild(title);
+  card.appendChild(description);
+  card.appendChild(timestamp);
+  card.appendChild(likeContainer);
+
+  return card;
+}
