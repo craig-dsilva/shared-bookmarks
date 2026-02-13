@@ -72,4 +72,9 @@ function createBookmarkCard(bookmark, index) {
   link.target = "_blank";
   title.appendChild(link);
 
-  
+  const description = document.createElement("p");
+  description.textContent = bookmark.description;
+
+  const timestamp = document.createElement("p");
+  const date = new Date(bookmark.createdAt);
+  timestamp.textContent = `Created at: ${date.toLocaleString()}`;
