@@ -7,6 +7,14 @@
 import { getUserIds, setData, getData } from "./storage.js";
 
 const bookmarkForm = document.querySelector("#bookmark-form");
+const addBookmarkSelectEl = document.querySelector("#select-user");
+getUserIds().map((user) => {
+  const optionEl = document.createElement("option");
+  optionEl.id = "add-bookmark-" + user;
+  optionEl.value = user;
+  optionEl.innerText = user;
+  addBookmarkSelectEl.appendChild(optionEl);
+});
 
 bookmarkForm.addEventListener("submit", function (e) {
   e.preventDefault();
