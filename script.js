@@ -64,6 +64,7 @@ function renderBookmarks() {
   container.innerHTML = "";
 
   if (!currentUser) {
+    alert("Please select a user to view bookmarks.");
     return;
   }
 
