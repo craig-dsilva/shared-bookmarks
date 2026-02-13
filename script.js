@@ -89,6 +89,11 @@ function renderBookmarks() {
   bookmark.push(newBookmark);
   setData(currentUser, bookmark);
 
+  urlElement.value = "";
+  titleElement.value = "";
+  descriptionElement.value = "";
+  
+
 
   const bookmarks = getData(currentUser) || [];
 
