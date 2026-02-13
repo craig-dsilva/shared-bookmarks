@@ -36,7 +36,6 @@ function setupUserSelection() {
 }
 
 function handleLike(bookmarkIndex) {
-
   if (!currentUser) {
     alert("Please select a user to like bookmarks.");
     return;
@@ -185,7 +184,30 @@ function createBookmarkCard(bookmark, index) {
   card.appendChild(timestamp);
   card.appendChild(likeContainer);
 
+  const copyButton = document.createElement("button");
+  copyButton.textContent = "Copy URL";
+  copyButton.type = "button";
+
+  copyButton.addEventListener("click", function () {
+    copyToClipboard(bookmark.url);
+    alert("URL copied to clipboard!");
+  });
+
+  card.appendChild(copyButton);
+
   return card;
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard
+    .writeText(text)
+    .catch.then(() => {
+      alert("URL copied to clipboard!");
+    })
+    .catch((err) => {
+      console.error("Failed to copy: ", err);
+      alert("Failed to copy URL. Please try again.");
+    });
 }
 
 function showError(fieldId, message) {
