@@ -11,6 +11,7 @@ let currentUser = null;
 window.onload = function () {
   populateUserDropdown();
   setupUserSelection();
+  setupFormHandler();
 };
 
 function populateUserDropdown() {
