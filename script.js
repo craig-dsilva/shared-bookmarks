@@ -198,6 +198,18 @@ function createBookmarkCard(bookmark, index) {
   return card;
 }
 
+function copyToClipboard(text) {
+  navigator.clipboard
+    .writeText(text)
+    .catch.then(() => {
+      alert("URL copied to clipboard!");
+    })
+    .catch((err) => {
+      console.error("Failed to copy: ", err);
+      alert("Failed to copy URL. Please try again.");
+    });
+}
+
 function showError(fieldId, message) {
   const errorEl = document.getElementById(`${fieldId}-error`);
   errorEl.textContent = message;
