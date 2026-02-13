@@ -53,6 +53,11 @@ function handleLike(bookmarkIndex) {
   setData(currentUser, sortedBookmarks);
   renderBookmarks();
 }
+function setupFormHandler() {
+  const bookmarkForm = document.querySelector("#bookmark-form");
+  
+  bookmarkForm.addEventListener("submit", function (event) {
+    event.preventDefault();
 
 function renderBookmarks() {
   const container = document.getElementById("bookmarks-container");
