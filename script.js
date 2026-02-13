@@ -85,14 +85,18 @@ function renderBookmarks() {
     createdAt : new Date().toISOString(),
     likes: 0
   };
-
   bookmark.push(newBookmark);
+
   setData(currentUser, bookmark);
 
   urlElement.value = "";
   titleElement.value = "";
   descriptionElement.value = "";
-  
+
+  renderBookmarks();
+  });
+}
+
 
 
   const bookmarks = getData(currentUser) || [];
