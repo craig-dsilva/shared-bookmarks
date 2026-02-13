@@ -8,23 +8,6 @@ import { getUserIds, getData } from "./storage.js";
 
 let currentUser = null;
 
-const bookmarkForm = document.querySelector("#bookmark-form");
-
-bookmarkForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const urlEl = document.querySelector("#url");
-  const titleEl = document.querySelector("#title");
-  const descriptionEl = document.querySelector("#description");
-  const url = urlEl.value;
-  const title = titleEl.value;
-  const description = descriptionEl.value;
-  console.log({ url, title, description });
-  urlEl.value = "";
-  titleEl.value = "";
-  descriptionEl.value = "";
-});
-
 window.onload = function () {
   populateUserDropdown();
   setupUserSelection();
@@ -44,9 +27,36 @@ function populateUserDropdown() {
 
 function setupUserSelection() {
   const dropdown = document.getElementById("user-select");
-
   dropdown.addEventListener("change", function (event) {
     const selectedUserId = event.target.value;
     currentUser = selectedUserId || null;
+    renderBookmarks();
+  });
+}
+
+function renderBookmarks() {
+  const container = document.getElementById("bookmarks-container");
+  container.innerHTML = "";
+
+  if (!currentUser) {
+    return;
+  }
+
+  const bookmarks = getData(currentUser) || [];
+
+  if (bookmarks.length === 0) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "No bookmarks found for this user.";
+    container.appendChild(emptyMessage);
+    return;
+  }
+
+  const sortedBookmarks = [...bookmarks].sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
+  sortedBookmarks.forEach((bookmark) => {
+    const card = createBookmarkCard(bookmark);
+    container.appendChild(card);
   });
 }
