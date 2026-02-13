@@ -68,6 +68,10 @@ function renderBookmarks() {
     return;
   }
 
+  const urlElement = document.getElementById("url");
+  const titleElement = document.getElementById("title");
+  const descriptionElement = document.getElementById("description");
+  
   const bookmarks = getData(currentUser) || [];
 
   if (bookmarks.length === 0) {
