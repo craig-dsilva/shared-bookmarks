@@ -8,6 +8,23 @@ import { getUserIds, getData } from "./storage.js";
 
 let currentUser = null;
 
+const bookmarkForm = document.querySelector("#bookmark-form");
+
+bookmarkForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const urlEl = document.querySelector("#url");
+  const titleEl = document.querySelector("#title");
+  const descriptionEl = document.querySelector("#description");
+  const url = urlEl.value;
+  const title = titleEl.value;
+  const description = descriptionEl.value;
+  console.log({ url, title, description });
+  urlEl.value = "";
+  titleEl.value = "";
+  descriptionEl.value = "";
+});
+
 window.onload = function () {
   populateUserDropdown();
   setupUserSelection();
