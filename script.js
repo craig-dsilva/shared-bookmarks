@@ -4,6 +4,10 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
+import { getUserIds, getData, setData } from "./storage.js";
+
+let currentUser = null;
+
 window.onload = function () {
   populateUserDropdown();
   setupUserSelection();
@@ -57,6 +61,7 @@ function setupFormHandler() {
 
   bookmarkForm.addEventListener("submit", function (e) {
     e.preventDefault();
+    clearErrors();
 
     if (!currentUser) {
       alert("Please select a user first!");
@@ -70,6 +75,21 @@ function setupFormHandler() {
     const url = urlEl.value;
     const title = titleEl.value;
     const description = descriptionEl.value;
+
+    if (!isValidUrl(url)) {
+      showError("url", "Please enter a valid URL.");
+      return;
+    }
+
+    if (!title.trim()) {
+      showError("title", "Please enter a title.");
+      return;
+    }
+
+    if (!description.trim()) {
+      showError("description", "Please enter a description.");
+      return;
+    }
 
     const bookmarks = getData(currentUser) || [];
 
@@ -90,6 +110,15 @@ function setupFormHandler() {
 
     renderBookmarks();
   });
+}
+
+function isValidUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
 }
 
 function renderBookmarks() {
@@ -160,4 +189,18 @@ function createBookmarkCard(bookmark, index) {
   card.appendChild(likeContainer);
 
   return card;
+}
+
+function showError(fieldId, message) {
+  const errorEl = document.getElementById(`${fieldId}-error`);
+  errorEl.textContent = message;
+  errorEl.style.display = "block";
+}
+
+function clearErrors() {
+  const errorMessages = document.querySelectorAll('[id$="-error"]');
+  errorMessages.forEach((el) => {
+    el.textContent = "";
+    el.style.display = "none";
+  });
 }

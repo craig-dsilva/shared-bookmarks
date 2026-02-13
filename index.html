@@ -8,20 +8,45 @@
     <main>
       <h1>Shared Bookmarks</h1>
       <section>
-        <form id="bookmark-form">
+        <form id="bookmark-form" novalidate>
           <label for="url">URL: </label>
-          <input type="url" name="url" id="url" required />
+          <input
+            type="url"
+            name="url"
+            id="url"
+            required
+            aria-describedby="url-error"
+          />
+          <small id="url-error" style="color: red; display: none"
+            >Please enter a valid URL.</small
+          >
+
           <label for="title">Title: </label>
-          <input type="text" name="title" id="title" required />
+          <input
+            type="text"
+            name="title"
+            id="title"
+            required
+            aria-describedby="title-error"
+          />
+          <small id="title-error" style="color: red; display: none"
+            >Please enter a title.</small
+          >
+
           <label for="description">Description: </label>
-          <textarea name="description" id="description"></textarea>
+          <textarea
+            name="description"
+            id="description"
+            required
+            aria-describedby="description-error"
+          ></textarea>
+          <small id="description-error" style="color: red; display: none"
+            >Please enter a description.</small
+          >
           <input type="submit" value="Submit" />
         </form>
         <label for="user-select">Select User:</label>
-        <select
-          id="user-select"
-          aria-label="Select a user to view their bookmarks"
-        >
+        <select id="user-select">
           <option value="">--Select a user--</option>
         </select>
       </section>
