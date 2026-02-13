@@ -55,8 +55,8 @@ function renderBookmarks() {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
 
-  sortedBookmarks.forEach((bookmark) => {
-    const card = createBookmarkCard(bookmark);
+  sortedBookmarks.forEach((bookmark, index) => {
+    const card = createBookmarkCard(bookmark, index);
     container.appendChild(card);
   });
 }
