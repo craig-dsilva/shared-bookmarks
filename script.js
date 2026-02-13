@@ -149,7 +149,7 @@ function createBookmarkCard(bookmark, index) {
   likeCount.textContent = ` ${bookmark.likes || 0} likes`;
 
   likeButton.addEventListener("click", function () {
-    handleLike(bookmarkIndex);
+    handleLike(index);
   });
 
   likeContainer.appendChild(likeButton);
