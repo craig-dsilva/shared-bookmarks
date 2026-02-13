@@ -85,7 +85,9 @@ function renderBookmarks() {
     createdAt : new Date().toISOString(),
     likes: 0
   };
-  
+
+  bookmark.push(newBookmark);
+  setData(currentUser, bookmark);
 
 
   const bookmarks = getData(currentUser) || [];
