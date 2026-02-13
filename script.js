@@ -76,7 +76,18 @@ function renderBookmarks() {
   const title = titleElement.value;
   const description = descriptionElement.value;
 
+  const bookmark = getData(currentUser) || [];
+
+  const newBookmark = {
+    url : url,
+    title : title,
+    description : description,
+    createdAt : new Date().toISOString(),
+    likes: 0
+  };
   
+
+
   const bookmarks = getData(currentUser) || [];
 
   if (bookmarks.length === 0) {
