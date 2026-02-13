@@ -55,35 +55,27 @@ function handleLike(bookmarkIndex) {
 }
 function setupFormHandler() {
   const bookmarkForm = document.querySelector("#bookmark-form");
-  
+
   bookmarkForm.addEventListener("submit", function (event) {
     event.preventDefault();
+  });
 
-function renderBookmarks() {
-  const container = document.getElementById("bookmarks-container");
-  container.innerHTML = "";
+  const urlEl = document.getElementById("url");
+  const titleEl = document.getElementById("title");
+  const descriptionEl = document.getElementById("description");
 
-  if (!currentUser) {
-    alert("Please select a user to view bookmarks.");
-    return;
-  }
-
-  const urlElement = document.getElementById("url");
-  const titleElement = document.getElementById("title");
-  const descriptionElement = document.getElementById("description");
-
-  const url = urlElement.value;
-  const title = titleElement.value;
-  const description = descriptionElement.value;
+  const url = urlEl.value;
+  const title = titleEl.value;
+  const description = descriptionEl.value;
 
   const bookmark = getData(currentUser) || [];
 
   const newBookmark = {
-    url : url,
-    title : title,
-    description : description,
-    createdAt : new Date().toISOString(),
-    likes: 0
+    url: url,
+    title: title,
+    description: description,
+    createdAt: new Date().toISOString(),
+    likes: 0,
   };
   bookmark.push(newBookmark);
 
@@ -94,10 +86,6 @@ function renderBookmarks() {
   descriptionElement.value = "";
 
   renderBookmarks();
-  });
-}
-
-
 
   const bookmarks = getData(currentUser) || [];
 
