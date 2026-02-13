@@ -60,3 +60,16 @@ function renderBookmarks() {
     container.appendChild(card);
   });
 }
+
+function createBookmarkCard(bookmark, index) {
+  const card = document.createElement("div");
+  card.className = "bookmark-card";
+  
+  const title = document.createElement("h3");
+  const link = document.createElement("a");
+  link.href = bookmark.url;
+  link.textContent = bookmark.title;
+  link.target = "_blank";
+  title.appendChild(link);
+
+  
