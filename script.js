@@ -161,3 +161,15 @@ function createBookmarkCard(bookmark, index) {
 
   return card;
 }
+
+function showError(fieldId, message) {
+  const errorEl = document.getElementById(`${fieldId}-error`);
+  errorEl.textContent = message;
+}
+
+function clearErrors() {
+  const errorMessages = document.querySelectorAll(".error-message");
+  errorMessages.forEach((el) => {
+    el.textContent = "";
+  });
+}
