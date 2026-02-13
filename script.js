@@ -26,12 +26,15 @@ bookmarkForm.addEventListener("submit", function (e) {
   const url = urlEl.value;
   const title = titleEl.value;
   const description = descriptionEl.value;
-  setData(id, { id, url, title, description });
+  const createdAt = new Date();
+  const bookmarks = getData(id)?.data ? getData(id).data : [];
+  bookmarks.push({ url, title, description, createdAt });
+  setData(id, { id, data: bookmarks });
   urlEl.value = "";
   titleEl.value = "";
   descriptionEl.value = "";
+  location.reload();
 });
-
 let currentUser = null;
 
 window.onload = function () {
