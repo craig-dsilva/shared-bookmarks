@@ -36,10 +36,6 @@ function setupUserSelection() {
 }
 
 function handleLike(bookmarkIndex) {
-  console.log("=== LIKE CLICKED ===");
-  console.log("Index:", bookmarkIndex);
-  console.log("Current user:", currentUser);
-
   if (!currentUser) {
     alert("Please select a user to like bookmarks.");
     return;
