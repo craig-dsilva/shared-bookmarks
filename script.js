@@ -71,6 +71,11 @@ function renderBookmarks() {
   const urlElement = document.getElementById("url");
   const titleElement = document.getElementById("title");
   const descriptionElement = document.getElementById("description");
+
+  const url = urlElement.value;
+  const title = titleElement.value;
+  const description = descriptionElement.value;
+
   
   const bookmarks = getData(currentUser) || [];
 
